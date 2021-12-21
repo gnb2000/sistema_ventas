@@ -20,14 +20,12 @@ public class ItemVenta {
     private Venta venta;
 
     private int cantidad;
-    private float total;
 
     public ItemVenta(){}
 
-    public ItemVenta(Producto producto, int cantidad, float total,Venta venta) {
+    public ItemVenta(Producto producto, int cantidad, Venta venta) {
         this.producto = producto;
         this.cantidad = cantidad;
-        this.total = total;
         this.venta = venta;
     }
 
@@ -55,14 +53,6 @@ public class ItemVenta {
         this.cantidad = cantidad;
     }
 
-    public float getTotal() {
-        return total;
-    }
-
-    public void setTotal(float total) {
-        this.total = total;
-    }
-
     public Venta getVenta() {
         return venta;
     }
@@ -72,6 +62,6 @@ public class ItemVenta {
     }
 
     public ItemVentaDTO toDTO(){
-        return new ItemVentaDTO(this.id,this.getProducto().getCodigo(),this.cantidad,this.total,this.getVenta().getId());
+        return new ItemVentaDTO(this.id,this.getProducto().getCodigo(),this.cantidad,this.getVenta().getId());
     }
 }

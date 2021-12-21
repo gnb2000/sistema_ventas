@@ -21,9 +21,8 @@ public class Venta {
 
     public Venta(){}
 
-    public Venta(float total,LocalDate fecha, List<ItemVenta> productos) {
+    public Venta(float total,LocalDate fecha) {
         this.total = total;
-        this.productos = productos;
         this.fecha = fecha;
     }
 
@@ -57,6 +56,34 @@ public class Venta {
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
+    }
+
+    public void agregarProducto(Producto producto,int cantidad){
+        boolean alreadyExists = false;
+        ItemVenta aux = null;
+        for (ItemVenta iv : this.productos){
+            if (Integer.compare(iv.getProducto().getCodigo(),producto.getCodigo()) == 0){
+                alreadyExists = true;
+                aux = iv;
+            }
+        }
+        if (alreadyExists == true){
+            aux.setCantidad(aux.getCantidad() + 1);
+        } else {
+            aux = new ItemVenta(producto,cantidad,this);
+            this.productos.add(aux);
+        }
+        this.actualizarTotal();
+    }
+
+    //TODO Agregar eliminarProducto que puede o disminuir cantidad o eliminarse todo el item
+
+    public void actualizarTotal(){
+        float precioNuevo = 0;
+        for (ItemVenta iv : this.productos){
+            precioNuevo += iv.getCantidad() * iv.getProducto().getPrecio();
+        }
+        this.total = precioNuevo;
     }
 
     public VentaDTO toDTO(){

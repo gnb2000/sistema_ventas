@@ -10,6 +10,7 @@ public class VentaDTO {
 
     public VentaDTO(int id, float total,LocalDate fecha) {
         this.id = id;
+        this.fecha = fecha;
         this.total = total;
     }
 

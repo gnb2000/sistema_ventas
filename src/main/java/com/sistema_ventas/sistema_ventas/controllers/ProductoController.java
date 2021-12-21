@@ -7,6 +7,8 @@ import com.sistema_ventas.sistema_ventas.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,35 +26,32 @@ public class ProductoController {
 
     @PutMapping("/producto/{id}/{nombre}/{precio}")
     public void actualizarProducto(@PathVariable int id, @PathVariable String nombre, @PathVariable float precio) throws Exception {
-        Optional<Producto> p = productoService.findProductoById(id);
-        if (p.isPresent()){
-            Producto producto = p.get();
-            producto.setNombre(nombre);
-            producto.setPrecio(precio);
-            productoService.saveProduct(producto);
-        } else {
-            throw new Exception("There is no Product with id "+id);
-        }
+        Producto producto = productoService.findProductoById(id);
+        producto.setNombre(nombre);
+        producto.setPrecio(precio);
+        productoService.saveProduct(producto);
     }
 
     @RequestMapping("/producto/{id}")
     public ProductoDTO getProductoById(@PathVariable int id) throws Exception {
-        Optional<Producto> p = productoService.findProductoById(id);
-        if (p.isPresent()){
-            return p.get().toDTO();
-        } else {
-            throw new Exception("There is no Product with id "+id);
-        }
+        Producto p = productoService.findProductoById(id);
+        return p.toDTO();
     }
 
     @DeleteMapping("/producto/{id}")
     public void deleteProductoById(@PathVariable int id) throws Exception {
-        Optional<Producto> p = productoService.findProductoById(id);
-        if (p.isPresent()){
-            productoService.deleteProducto(p.get());
-        } else {
-            throw new Exception("There is no Product with id "+id);
+        Producto p = productoService.findProductoById(id);
+        productoService.deleteProducto(p);
+    }
+
+    @RequestMapping("/productos")
+    public List<ProductoDTO> getAllProductos(){
+        List<ProductoDTO> productosDTO = new ArrayList<ProductoDTO>();
+        List<Producto> productos = productoService.getAllProductos();
+        for (Producto p : productos){
+            productosDTO.add(p.toDTO());
         }
+        return productosDTO;
     }
 
 

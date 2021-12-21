@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@RestController
 public class ItemVentaController {
+
+    //TODO Agregar metodo para incrementar o decrementar cantidad
 
     @Autowired
     private ItemVentaService itemVentaService;
@@ -25,38 +28,41 @@ public class ItemVentaController {
     @Autowired
     private ProductoService productoService;
 
-
-
-    @PostMapping("/itemVenta/{producto_id}/{venta_id}/{cantidad}/{total}")
-    public void createItemVenta(@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad,@PathVariable float total) throws Exception {
+    @PostMapping("/itemVenta/{producto_id}/{venta_id}/{cantidad}")
+    public void createItemVenta(@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad) throws Exception {
         Venta v = ventaService.getVentaById(venta_id);
         Producto p = productoService.findProductoById(producto_id);
-        ItemVenta iv = new ItemVenta(p,cantidad,total,v);
+        ItemVenta iv = new ItemVenta(p,cantidad,v);
         itemVentaService.save(iv);
     }
 
-    @PutMapping("/itemVenta/{id}/{producto_id}/{venta_id}/{cantidad}/{total}")
-    public void updateItemVenta(@PathVariable Integer id,@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad,@PathVariable float total) throws Exception {
+    @PutMapping("/itemVenta/{id}/{producto_id}/{venta_id}/{cantidad}")
+    public void updateItemVenta(@PathVariable Integer id,@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad) throws Exception {
         ItemVenta itemVenta = itemVentaService.getItemVentaById(id);
         Venta v = ventaService.getVentaById(venta_id);
         Producto p = productoService.findProductoById(producto_id);
         itemVenta.setVenta(v);
         itemVenta.setProducto(p);
         itemVenta.setCantidad(cantidad);
-        itemVenta.setTotal(total);
         itemVentaService.update(itemVenta);
+        v.actualizarTotal();
+        ventaService.update(v);
     }
 
     @DeleteMapping("/itemVenta/{id}")
     public void deleteItemVenta(@PathVariable Integer id) throws Exception {
         ItemVenta itemVenta = itemVentaService.getItemVentaById(id);
-        itemVentaService.delete(itemVenta);
+        Venta v = itemVenta.getVenta();
+        v.getProductos().remove(itemVenta);
+        //itemVentaService.delete(itemVenta);
+        v.actualizarTotal();
+        ventaService.update(v);
+
     }
 
     @RequestMapping("/itemVenta/{id}")
     public ItemVentaDTO getItemVentaById(@PathVariable Integer id) throws Exception {
         return itemVentaService.getItemVentaById(id).toDTO();
-
     }
 
 

@@ -7,14 +7,12 @@ public class ItemVentaDTO {
     private int id;
     private int idProducto;
     private int cantidad;
-    private float total;
     private int idVenta;
 
-    public ItemVentaDTO(int id, int idProducto, int cantidad, float total, int idVenta) {
+    public ItemVentaDTO(int id, int idProducto, int cantidad, int idVenta) {
         this.id = id;
         this.idProducto = idProducto;
         this.cantidad = cantidad;
-        this.total = total;
         this.idVenta = idVenta;
     }
 
@@ -40,14 +38,6 @@ public class ItemVentaDTO {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public float getTotal() {
-        return total;
-    }
-
-    public void setTotal(float total) {
-        this.total = total;
     }
 
     public int getIdVenta() {
