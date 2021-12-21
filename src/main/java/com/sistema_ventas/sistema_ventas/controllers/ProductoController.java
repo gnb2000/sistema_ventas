@@ -18,17 +18,18 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @PostMapping("/producto/{nombre}/{precio}")
-    public void crearProducto(@PathVariable String nombre, @PathVariable float precio) throws Exception {
-        Producto producto = new Producto(precio,nombre);
+    @PostMapping("/producto/{nombre}/{precio}/{cantidad}")
+    public void crearProducto(@PathVariable String nombre, @PathVariable float precio,@PathVariable int cantidad) throws Exception {
+        Producto producto = new Producto(precio,nombre,cantidad);
         productoService.saveProduct(producto);
     }
 
-    @PutMapping("/producto/{id}/{nombre}/{precio}")
-    public void actualizarProducto(@PathVariable int id, @PathVariable String nombre, @PathVariable float precio) throws Exception {
+    @PutMapping("/producto/{id}/{nombre}/{precio}/{cantidad}")
+    public void actualizarProducto(@PathVariable int id, @PathVariable String nombre, @PathVariable float precio,@PathVariable int cantidad) throws Exception {
         Producto producto = productoService.findProductoById(id);
         producto.setNombre(nombre);
         producto.setPrecio(precio);
+        producto.setCantidad(cantidad);
         productoService.saveProduct(producto);
     }
 

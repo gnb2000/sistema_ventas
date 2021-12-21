@@ -11,18 +11,19 @@ public class Producto {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
-
     private float precio;
     private String nombre;
+    private int cantidad;
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemVenta> itemVenta;
 
     public Producto(){}
 
-    public Producto(float precio, String nombre) {
+    public Producto(float precio, String nombre,int cantidad) {
         this.precio = precio;
         this.nombre = nombre;
+        this.cantidad = cantidad;
     }
 
     public int getCodigo() {
@@ -57,7 +58,15 @@ public class Producto {
         this.itemVenta = itemVenta;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public ProductoDTO toDTO(){
-        return new ProductoDTO(this.codigo,this.precio,this.nombre);
+        return new ProductoDTO(this.codigo,this.precio,this.nombre,this.cantidad);
     }
 }
