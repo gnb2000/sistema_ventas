@@ -76,7 +76,15 @@ public class Venta {
         this.actualizarTotal();
     }
 
-    //TODO Agregar eliminarProducto que puede o disminuir cantidad o eliminarse todo el item
+    public void eliminarProducto(ItemVenta itemVenta){
+        if (itemVenta.getCantidad() == 1){
+            this.getProductos().remove(itemVenta);
+        } else {
+            itemVenta.setCantidad(itemVenta.getCantidad() - 1);
+        }
+        this.actualizarTotal();
+    }
+
 
     public void actualizarTotal(){
         float precioNuevo = 0;

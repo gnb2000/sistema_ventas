@@ -17,8 +17,6 @@ import java.util.Optional;
 @RestController
 public class ItemVentaController {
 
-    //TODO Agregar metodo para incrementar o decrementar cantidad
-
     @Autowired
     private ItemVentaService itemVentaService;
 
@@ -30,10 +28,10 @@ public class ItemVentaController {
 
     @PostMapping("/itemVenta/{producto_id}/{venta_id}/{cantidad}")
     public void createItemVenta(@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad) throws Exception {
-        Venta v = ventaService.getVentaById(venta_id);
-        Producto p = productoService.findProductoById(producto_id);
-        ItemVenta iv = new ItemVenta(p,cantidad,v);
-        itemVentaService.save(iv);
+        Venta venta = ventaService.getVentaById(venta_id);
+        Producto producto = productoService.findProductoById(producto_id);
+        venta.agregarProducto(producto,cantidad);
+        ventaService.update(venta);
     }
 
     @PutMapping("/itemVenta/{id}/{producto_id}/{venta_id}/{cantidad}")
@@ -53,11 +51,8 @@ public class ItemVentaController {
     public void deleteItemVenta(@PathVariable Integer id) throws Exception {
         ItemVenta itemVenta = itemVentaService.getItemVentaById(id);
         Venta v = itemVenta.getVenta();
-        v.getProductos().remove(itemVenta);
-        //itemVentaService.delete(itemVenta);
-        v.actualizarTotal();
+        v.eliminarProducto(itemVenta);
         ventaService.update(v);
-
     }
 
     @RequestMapping("/itemVenta/{id}")
