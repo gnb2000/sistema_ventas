@@ -33,7 +33,9 @@ public class ItemVentaController {
     public void createItemVenta(@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad) throws Exception {
         Venta venta = ventaService.getVentaById(venta_id);
         Producto producto = productoService.findProductoById(producto_id);
+        producto.setCantidad(producto.getCantidad() - cantidad);
         venta.agregarProducto(producto,cantidad);
+        productoService.updateProducto(producto);
         ventaService.update(venta);
     }
 
@@ -55,6 +57,7 @@ public class ItemVentaController {
         ItemVenta itemVenta = itemVentaService.getItemVentaById(id);
         Venta v = itemVenta.getVenta();
         v.eliminarProducto(itemVenta);
+        itemVenta.getProducto().setCantidad(itemVenta.getCantidad() + itemVenta.getProducto().getCantidad());
         ventaService.update(v);
     }
 
