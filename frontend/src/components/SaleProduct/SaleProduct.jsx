@@ -38,7 +38,6 @@ function SaleProduct(props){
                 </thead>
                 <tbody>
                     {productos.length !== 0 ? productos.map(producto => {
-                        console.log(productos);
                         return (
                             <tr key={producto.producto.codigo}>
                                 <th scope="row">{producto.producto.codigo}</th>

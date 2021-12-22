@@ -32,9 +32,10 @@ public class VentaController {
     private ProductoService productoService;
 
     @PostMapping("/venta/{fecha}/{total}")
-    public void createVenta(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, @PathVariable float total) throws Exception {
+    public VentaDTO createVenta(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, @PathVariable float total) throws Exception {
         Venta v = new Venta(total,fecha);
         ventaService.save(v);
+        return v.toDTO();
     }
 
     @PutMapping("/venta/{id}/{fecha}/{total}/{items_venta}")

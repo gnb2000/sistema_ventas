@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../../Card/Card';
 import './home.css';
+import axios from 'axios';
+import {Navigate, useNavigate} from 'react-router-dom';
+
 
 function Home(){
+
+    const [currentDate,setCurrentDate] = useState(new Date().toISOString().slice(0, 10));
+    const [sale,setSale] = useState([]);
+    let history = useNavigate();
+
+    function createNewSale(){
+        axios.post("http://localhost:8080/venta/"+currentDate+"/0")
+            .then(res => {
+                history("/newSale/"+res.data.id);
+            })
+    }
 
     return (
         <>
@@ -18,7 +32,9 @@ function Home(){
                     </a>
                 </div>
                 <div className="p-2">
-                    <Card title="New sale" style="bg-danger" description="Make a new sale"/>
+                    <a onClick={() => createNewSale()} type="button">
+                        <Card title="New sale" style="bg-danger" description="Create a new sale"/>
+                    </a>
                 </div>
             </div>
         </>
