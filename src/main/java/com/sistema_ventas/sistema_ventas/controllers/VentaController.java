@@ -67,6 +67,16 @@ public class VentaController {
         ventaService.update(venta);
     }
 
+    @RequestMapping("/ventas")
+    public List<VentaDTO> getAllVentas(){
+        List<VentaDTO> ventasDTO = new ArrayList<VentaDTO>();
+        List<Venta> ventas = ventaService.getAllVentas();
+        for (Venta v : ventas){
+            ventasDTO.add(v.toDTO());
+        }
+        return ventasDTO;
+    }
+
 
     private List<ItemVenta> getItemsVentaByIds(String[] items_venta) throws Exception {
         List<ItemVenta> itemsVenta = new ArrayList<ItemVenta>();

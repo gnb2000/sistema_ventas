@@ -12,6 +12,8 @@ import com.sistema_ventas.sistema_ventas.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,7 +29,7 @@ public class ItemVentaController {
     @Autowired
     private ProductoService productoService;
 
-    @PostMapping("/itemVenta/{producto_id}/{venta_id}/{cantidad}")
+    @PutMapping("/itemVenta/{producto_id}/{venta_id}/{cantidad}")
     public void createItemVenta(@PathVariable Integer producto_id, @PathVariable Integer venta_id,@PathVariable Integer cantidad) throws Exception {
         Venta venta = ventaService.getVentaById(venta_id);
         Producto producto = productoService.findProductoById(producto_id);
@@ -59,6 +61,16 @@ public class ItemVentaController {
     @RequestMapping("/itemVenta/{id}")
     public ItemVentaDTO getItemVentaById(@PathVariable Integer id) throws Exception {
         return itemVentaService.getItemVentaById(id).toDTO();
+    }
+
+    @RequestMapping("/itemsVenta/{venta_id}")
+    public List<ItemVentaDTO> getItemsVentaByVenta(@PathVariable Integer venta_id){
+        List<ItemVenta> itemVenta = itemVentaService.getItemsVentaByVenta(venta_id);
+        List<ItemVentaDTO> itemVentaDTO = new ArrayList<ItemVentaDTO>();
+        for (ItemVenta iv : itemVenta){
+            itemVentaDTO.add(iv.toDTO());
+        }
+        return itemVentaDTO;
     }
 
 

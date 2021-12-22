@@ -12,6 +12,7 @@ public interface ItemVentaService {
     void delete(ItemVenta iv);
     List<ItemVenta> getAllItemsVenta();
     ItemVenta getItemVentaById(Integer id) throws Exception;
+    List<ItemVenta> getItemsVentaByVenta(Integer id);
 
 
 }

@@ -44,4 +44,10 @@ public class ItemVentaServiceImpl implements ItemVentaService{
             throw new Exception("There is no a sale_item with id "+id);
         }
     }
+
+    @Override
+    public List<ItemVenta> getItemsVentaByVenta(Integer id) {
+        System.out.println(id);
+        return itemVentaRepository.findByVenta(id);
+    }
 }

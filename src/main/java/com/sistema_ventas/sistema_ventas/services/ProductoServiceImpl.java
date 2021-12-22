@@ -47,4 +47,9 @@ public class ProductoServiceImpl implements ProductoService{
     public List<Producto> getAllProductos() {
         return productoRepository.findAll();
     }
+
+    @Override
+    public List<Producto> getProductosByVenta(int id) {
+        return null;
+    }
 }

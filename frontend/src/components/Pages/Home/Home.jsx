@@ -13,7 +13,9 @@ function Home(){
                     </a>
                 </div>
                 <div className="p-2">
-                    <Card title="Sales" style="bg-success" description="List of sales"/>
+                    <a href="/sales" type="button">
+                        <Card title="Sales" style="bg-success" description="List of sales"/>
+                    </a>
                 </div>
                 <div className="p-2">
                     <Card title="New sale" style="bg-danger" description="Make a new sale"/>
