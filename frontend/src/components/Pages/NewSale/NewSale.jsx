@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import AddProductSaleForm from '../../AddProductSaleForm/AddProductSaleForm';
-import {useParams,  useSearchParams } from 'react-router-dom';
+import {useNavigate, useParams,  useSearchParams } from 'react-router-dom';
 import SaleProduct from '../../SaleProduct/SaleProduct';
 
 function NewSale(){
@@ -10,6 +10,7 @@ function NewSale(){
     const [sale,setSale] = useState([]);
     const [itemsVenta,setItemVenta] = useState([]);
     let params = useParams();
+    let history = useNavigate();
 
     useEffect(() => {
         axios.get("http://localhost:8080/itemsVenta/"+params.id)
@@ -17,6 +18,15 @@ function NewSale(){
                 setItemVenta(res.data);
             })
     },[])
+
+    function deleteSale(){
+        console.log(sale);
+        console.log("hola");
+        axios.delete("http://localhost:8080/venta/"+params.id)
+            .then(res => {
+                history("/");
+            })
+    }
 
     return (
         <div className="container pt-4">
@@ -28,11 +38,13 @@ function NewSale(){
                 </div>
                 <div className="col-6  mt-5 shadow p-4">
                     <SaleProduct itemsVenta={itemsVenta}/>
-
                 </div>
+                
             </div>
-           
-
+            <div className="d-flex justify-content-center mt-5">
+                    <button onClick={() => deleteSale()} className="btn btn-danger me-2">Cancel</button>
+                    <a href="/" type="button" className="btn btn-success">Finish</a>
+                </div>
         </div>
     )
 }

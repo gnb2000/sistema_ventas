@@ -6,7 +6,7 @@ import {useParams,  useSearchParams } from 'react-router-dom';
 function AddProductSaleForm(props){
 
     const [products,setProducts] = useState([]);
-    const [productSelected,setProductSelected] = useState("-1");
+    const [productSelected,setProductSelected] = useState("");
     const [specificProduct,setSpecificProduct] = useState("");
     const [amount,setAmount] = useState(0);
     let params = useParams();
@@ -38,9 +38,10 @@ function AddProductSaleForm(props){
 
     function handleSubmit(e){
         e.preventDefault();
+        console.log(specificProduct);
         axios.put("http://localhost:8080/itemVenta/"+specificProduct.codigo+"/"+params.id+"/"+amount)
             .then(res => {
-                console.log("Completed");
+                window.location.reload(true);
             })
 
     }
@@ -52,8 +53,8 @@ function AddProductSaleForm(props){
             <form onSubmit={handleSubmit}>
                 <div class="mb-3">
                     <label class="form-label">Choose a product</label>
-                    <select onChange={handleProductChange} class="form-select">
-                        <option value="-1">Open this select menu</option>
+                    <select onChange={handleProductChange} value={productSelected} class="form-select">
+                        <option>Open this select menu</option>
                         {products.map(product => {
                             return (
                                 <option value={product.codigo}>{product.nombre}</option>
